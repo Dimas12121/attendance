@@ -48,3 +48,4 @@ jobs:
             **/README.md
             **/TUTORIAL.md
             **/DEPLOY.md
+            **/database/database.sqlite
