@@ -128,7 +128,7 @@
     async function init() {
         try {
             statusText.innerText = "INITIALIZING AI...";
-            const URL = "{{ asset('models') }}";
+            const URL = "/models";
             await Promise.all([
                 faceapi.nets.tinyFaceDetector.loadFromUri(URL),
                 faceapi.nets.faceLandmark68Net.loadFromUri(URL),
@@ -186,9 +186,18 @@
 
         const videoEl = box.querySelector('video');
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: id } } });
+            console.log("Requesting camera access for ID:", id);
+            const constraints = { 
+                video: { 
+                    deviceId: id ? { ideal: id } : undefined,
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                } 
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             videoEl.srcObject = stream;
             videoEl.currentStream = stream;
+            console.log("Camera access granted.");
             
             videoEl.onplay = () => {
                 const canvas = faceapi.createCanvasFromMedia(videoEl);

@@ -77,6 +77,7 @@ class AttendanceController extends Controller
                  . "Terima kasih.";
         
         $photoUrl = $attendance->photo ? asset('storage/' . $attendance->photo) : null;
+        \Illuminate\Support\Facades\Log::info("Mengirim foto ke WA: " . $photoUrl);
         $wa->sendMessage($student->phone_parent, $message, $photoUrl);
 
         $successMsg = $type === 'in' 
